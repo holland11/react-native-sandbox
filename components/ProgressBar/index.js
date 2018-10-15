@@ -20,6 +20,7 @@ class ProgressBar extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: row,
     backgroundColor: "orange",
     alignItems: "center",
     justifyContent: "center"
