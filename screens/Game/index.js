@@ -7,21 +7,30 @@ import ProgressBar from "../../components/ProgressBar";
 import { theme } from "../../styles";
 import { constants } from "../../constants";
 
+shuffle = a => {
+  // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
+  }
+  return a;
+};
+
 class Game extends Component {
   state = {
-    board: [this.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 0])]
-  };
-
-  shuffle = a => {
-    // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
-    var j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = a[i];
-      a[i] = a[j];
-      a[j] = x;
-    }
-    return a;
+    board: [
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8),
+      shuffle([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]).slice(0, 8)
+    ]
   };
 
   swapCells = (c1y, c1x, c2y, c2x) => {

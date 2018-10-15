@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   progressText: {
     fontSize: 22,
-    fontColor: "black"
+    fontWeight: "bold"
   }
 });
 

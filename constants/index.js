@@ -1,3 +1,3 @@
 export const constants = {
-  boardSize: 10
+  boardSize: 8
 };
