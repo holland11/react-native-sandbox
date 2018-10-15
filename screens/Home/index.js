@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
+import { theme } from "../../styles";
+
 class Home extends Component {
   state = {};
 
   render() {
-    console.log("render home.js");
     const menuOptions = [
       { name: "Play", screen: "play" },
       { name: "Settings", screen: "settings" }
@@ -19,9 +20,9 @@ class Home extends Component {
             <TouchableOpacity
               key={"menu item #" + index}
               onPress={() => this.props.changeScreen(menuObj.screen)}
-              style={styles.menuButton}
+              style={theme.menuButton}
             >
-              {menuObj.name}
+              <Text style={theme.menuButtonText}>{menuObj.name}</Text>
             </TouchableOpacity>
           );
         })}
@@ -36,9 +37,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
-  },
-  menuButton: {
-    backgroundColor: "green"
   }
 });
 

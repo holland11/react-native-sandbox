@@ -18,11 +18,9 @@ export default class App extends Component {
   };
 
   render() {
-    console.log("render app.js");
     const { activeScreen } = this.state;
     return (
       <View style={styles.container}>
-        <Text>Test</Text>
         {activeScreen === "home" && <Home changeScreen={this.changeScreen} />}
         {activeScreen === "play" && (
           <Game backToHome={() => this.changeScreen("home")} />
