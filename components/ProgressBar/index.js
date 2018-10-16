@@ -19,10 +19,7 @@ class ProgressBar extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "orange",
-    justifyContent: "center"
+    backgroundColor: "orange"
   },
   progressText: {
     fontSize: 22,

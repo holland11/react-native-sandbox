@@ -1,0 +1,7 @@
+pixel art make tiles (diamond, square, circle, triangle, star, X) with unique colors
+
+make transition animations when swapping
+
+fail swap if it doesnt result in a match
+
+keep score with the score ticking down based on the level
