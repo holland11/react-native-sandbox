@@ -9,7 +9,8 @@ class Home extends Component {
   render() {
     const menuOptions = [
       { name: "Play", screen: "play" },
-      { name: "Settings", screen: "settings" }
+      { name: "Settings", screen: "settings" },
+      { name: "Sandbox", screen: "sandbox" }
     ];
 
     return (

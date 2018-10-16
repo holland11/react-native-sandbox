@@ -10,7 +10,7 @@ class ProgressBar extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.progressText}>
-          {this.props.progress * 100 + "%"}
+          {this.props.progress.score + " / " + this.props.progress.maxScore}
         </Text>
       </View>
     );

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
+
 import Home from "./screens/Home";
 import Game from "./screens/Game";
 import Settings from "./screens/Settings";
+import Sandbox from "./screens/Sandbox";
 
 export default class App extends Component {
   state = {
@@ -27,6 +29,9 @@ export default class App extends Component {
         )}
         {activeScreen === "settings" && (
           <Settings backToHome={() => this.changeScreen("home")} />
+        )}
+        {activeScreen === "sandbox" && (
+          <Sandbox backToHome={() => this.changeScreen("home")} />
         )}
       </View>
     );

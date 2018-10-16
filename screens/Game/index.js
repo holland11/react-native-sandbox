@@ -7,29 +7,44 @@ import ProgressBar from "../../components/ProgressBar";
 import { theme } from "../../styles";
 import { constants } from "../../constants";
 
-shuffle = a => {
-  // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
-  var j, x, i;
-  for (i = a.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    x = a[i];
-    a[i] = a[j];
-    a[j] = x;
-  }
-  return a;
-};
-
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      board: this.generateBoard()
+      board: this.generateBoard(),
+      level: 1,
+      score: 500,
+      maxScore: 1000
     };
   }
 
   componentDidMount() {
     this.checkBoardForMatches();
+    this.setState({
+      score: 500,
+      maxScore: 1000
+    });
+    this._interval = setInterval(() => {
+      this.updateScore();
+    }, 500);
   }
+
+  componentWillUnmount() {
+    clearInterval(this._interval);
+  }
+
+  updateScore = () => {
+    const { score, level } = this.state;
+    if (score <= 0) {
+      alert("You lose.");
+      this.setState({ score: this.maxScore / 2 });
+    }
+    this.setState(prevState => {
+      return {
+        score: prevState.score - (level * constants.scoreLossPerSecond) / 2
+      };
+    });
+  };
 
   swapCells = (c1y, c1x, c2y, c2x) => {
     const { board } = this.state;
@@ -69,6 +84,7 @@ class Game extends Component {
         }
         if (board[y][x] !== currentTile || x === board[y].length - 1) {
           if (matches >= 3) {
+            this.addScore(matches);
             for (let i = 0; i < matches; i++) {
               cellsToRemove.push({ x: x - i, y });
             }
@@ -89,6 +105,7 @@ class Game extends Component {
         }
         if (board[y][x] !== currentTile || y === board.length - 1) {
           if (matches >= 3) {
+            this.addScore(matches);
             for (let i = 0; i < matches; i++) {
               if (cellsToRemove.includes({ x, y: y - i })) {
                 console.log("cell (${x},${y}) is in two matches");
@@ -155,6 +172,25 @@ class Game extends Component {
     this.setState({ board: newBoard }, this.checkBoardForMatches);
   };
 
+  addScore = matchCount => {
+    let modifier = 1;
+    if (matchCount === 3) {
+      modifer = 1;
+    } else if (matchCount === 4) {
+      modifer = 1.4;
+    } else if (matchCount === 5) {
+      modifier = 2;
+    } else {
+      modifer = 2.5;
+    }
+    let points = modifer * matchCount * constants.baseScorePerMatch;
+    this.setState(prevState => {
+      return {
+        score: prevState.score + points
+      };
+    });
+  };
+
   generateBoard = () => {
     const board = [];
     for (let y = 0; y < constants.boardSize; y++) {
@@ -171,12 +207,12 @@ class Game extends Component {
   };
 
   render() {
-    const { board } = this.state;
+    const { board, score, maxScore } = this.state;
     return (
       <View style={styles.container}>
         <Text>{"Game"}</Text>
         <GameBoard board={board} swapCells={this.swapCells} />
-        <ProgressBar progress={0.5} />
+        <ProgressBar progress={{ score, maxScore }} />
         <TouchableOpacity
           style={theme.menuButton}
           onPress={() => this.props.backToHome()}
