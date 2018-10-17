@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Animated,
+  Easing
+} from "react-native";
 import GestureRecognizer, {
   swipeDirections
 } from "react-native-swipe-gestures";
@@ -39,20 +46,60 @@ class Sandbox extends Component {
           <Text style={theme.menuButtonText}>Back</Text>
         </TouchableOpacity>
         <View style={styles.cellsContainer}>
-          <GestureRecognizer
-            style={styles.cell}
+          <Cell
             onSwipeRight={() => this.onSwipeRight(0)}
-          >
-            <Text style={styles.cellText}>{cellValues[0]}</Text>
-          </GestureRecognizer>
-          <GestureRecognizer
-            style={styles.cell}
-            onSwipeLeft={() => this.onSwipeLeft(1)}
-          >
-            <Text style={styles.cellText}>{cellValues[1]}</Text>
-          </GestureRecognizer>
+            value={cellValues[0]}
+          />
+          <Cell onSwipeLeft={() => this.onSwipeLeft(1)} value={cellValues[1]} />
         </View>
       </View>
+    );
+  }
+}
+
+class Cell extends Component {
+  constructor(props) {
+    super(props);
+    this.xTranslate = new Animated.Value(0);
+    this.state = {
+      moveX: this.xTranslate.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 50]
+      })
+    };
+  }
+  swipeLeft = () => {
+    if (!this.props.onSwipeLeft) return;
+    this.xTranslate.setValue(0);
+    Animated.timing(this.xTranslate, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear
+    }).start();
+    this.props.onSwipeLeft();
+  };
+  swipeRight = () => {
+    if (!this.props.onSwipeRight) return;
+    this.xTranslate.setValue(0);
+    Animated.timing(this.xTranslate, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.linear
+    }).start();
+    this.props.onSwipeRight();
+  };
+  render() {
+    let translateStyle = { transform: [{ translateX: this.state.moveX }] };
+    return (
+      <Animated.View style={[translateStyle]}>
+        <GestureRecognizer
+          style={styles.cell}
+          onSwipeLeft={this.swipeLeft}
+          onSwipeRight={this.swipeRight}
+        >
+          <Text style={styles.cellText}>{this.props.value}</Text>
+        </GestureRecognizer>
+      </Animated.View>
     );
   }
 }
